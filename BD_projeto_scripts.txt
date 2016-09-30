@@ -1,0 +1,159 @@
+﻿-------------------------------Projeto do Lab de BD-I – 1º Bimestre--------------------------------
+
+
+****************************SCRIPT DE CRIAÇÃO DO BANCO DE DADOS************************************
+
+CREATE TABLE cliente (
+	cod_cliente INTEGER NOT NULL CHECK(cod_cliente > 0 AND cod_cliente < 1000),
+	nome VARCHAR(40),
+	PRIMARY KEY(cod_cliente)
+);
+
+CREATE TABLE agente (
+	cod_agente INTEGER NOT NULL CHECK(cod_agente > 0 AND cod_agente < 1000),
+	nome VARCHAR(40),
+	alcunha VARCHAR(50),
+	comissao INTEGER CHECK(comissao < 100),
+	PRIMARY KEY(cod_agente)
+);
+
+CREATE TABLE categoriaAtuacao (
+	cod_categoriaAtuacao INTEGER NOT NULL CHECK(cod_categoriaAtuacao > 0 AND cod_categoriaAtuacao < 10000),
+	categoria VARCHAR(15),
+	PRIMARY KEY(cod_categoriaAtuacao)
+);
+
+CREATE TABLE acompanhante (
+	cod_acompanhante INTEGER NOT NULL CHECK(cod_acompanhante > 0 AND cod_acompanhante < 1000),
+	nome VARCHAR(40),
+	descendencia VARCHAR(25),
+	genero VARCHAR(1) CHECK(genero = 'M' OR genero = 'F'),
+	razaoSocial VARCHAR(50),
+	valorHora DECIMAL(6,2),
+	cod_agente INTEGER NOT NULL,
+	PRIMARY KEY(cod_acompanhante),
+	FOREIGN KEY(cod_agente) REFERENCES agente(cod_agente)
+);
+
+CREATE TABLE especializacao (
+	cod_categoriaAtuacao INTEGER NOT NULL,
+	cod_acompanhante INTEGER NOT NULL,
+	PRIMARY KEY(cod_categoriaAtuacao, cod_acompanhante),
+	FOREIGN KEY(cod_categoriaAtuacao) REFERENCES categoriaAtuacao(cod_categoriaAtuacao),
+	FOREIGN KEY(cod_acompanhante) REFERENCES acompanhante(cod_acompanhante)
+);
+
+CREATE TABLE encontro (
+	cod_encontro INTEGER NOT NULL CHECK(cod_encontro > 0 AND cod_encontro < 100000),
+	duracao INTEGER,
+	formaPagamento VARCHAR(20) CHECK(formaPagamento = 'Dinheiro' OR formaPagamento = 'Cheque' OR formaPagamento = 'Cartão'),
+	cod_cliente INTEGER NOT NULL,
+	cod_acompanhante INTEGER NOT NULL,
+	PRIMARY KEY(cod_encontro),
+	FOREIGN KEY(cod_cliente) REFERENCES cliente(cod_cliente),
+	FOREIGN KEY(cod_acompanhante) REFERENCES acompanhante(cod_acompanhante)
+);
+
+DROP TABLE encontro;
+DROP TABLE especializacao;
+DROP TABLE acompanhante;
+DROP TABLE categoriaAtuacao;
+DROP TABLE agente;
+DROP TABLE cliente;
+
+***************************************************************************************************
+
+*********************************SCRIPT DE INSERÇÃO DE DADOS***************************************
+
+INSERT INTO cliente(cod_cliente, nome) VALUES(1, 'João da Silva');
+INSERT INTO cliente(cod_cliente, nome) VALUES(2, 'Alexandre Borges');
+INSERT INTO cliente(cod_cliente, nome) VALUES(3, 'Marcelo de Oliveira');
+INSERT INTO cliente(cod_cliente, nome) VALUES(4, 'Mateus da Silva Junior');
+INSERT INTO cliente(cod_cliente, nome) VALUES(5, 'Miguel Dante');
+INSERT INTO cliente(cod_cliente, nome) VALUES(6, 'Ronaldo Luís Nazário de Lima');
+INSERT INTO cliente(cod_cliente, nome) VALUES(7, 'Carlos Damião');
+INSERT INTO cliente(cod_cliente, nome) VALUES(8, 'Ricardo Falabella');
+INSERT INTO cliente(cod_cliente, nome) VALUES(9, 'Adalberto dos Santos');
+INSERT INTO cliente(cod_cliente, nome) VALUES(10, 'Cristiano Davilla');
+
+INSERT INTO agente(cod_agente, nome, alcunha, comissao) VALUES(100, 'José Villa Macedo', 'Vlad Impalador', 30);
+INSERT INTO agente(cod_agente, nome, alcunha, comissao) VALUES(101, 'Romualdo da Silva', 'Racha-Cuca', 45);
+INSERT INTO agente(cod_agente, nome, alcunha, comissao) VALUES(102, 'Washington da Luz', 'Zangief', 50);
+INSERT INTO agente(cod_agente, nome, alcunha, comissao) VALUES(103, 'Cristiano Davilla', 'T-Rex', 65);
+INSERT INTO agente(cod_agente, nome, alcunha, comissao) VALUES(104, 'Ronaldo Cristino', 'Domador de Cobra', 65);
+
+INSERT INTO acompanhante(cod_acompanhante, nome, descendencia, genero, razaoSocial, valorHora, cod_agente) VALUES(200, 'Bruna de Oliveira', 'Oriental', 'F', 'Samuraizinha', 450, 100);
+INSERT INTO acompanhante(cod_acompanhante, nome, descendencia, genero, razaoSocial, valorHora, cod_agente) VALUES(201, 'Suzana Lopez', 'Latina', 'F', 'Arriba', 300.50, 100);
+INSERT INTO acompanhante(cod_acompanhante, nome, descendencia, genero, razaoSocial, valorHora, cod_agente) VALUES(202, 'Doranilda da Silva', 'Latina', 'F', 'Dilma', 325.25, 101);
+INSERT INTO acompanhante(cod_acompanhante, nome, descendencia, genero, razaoSocial, valorHora, cod_agente) VALUES(203, 'Carla Suzuki', 'Oriental', 'F', 'Ninja Love', 500, 101);
+INSERT INTO acompanhante(cod_acompanhante, nome, descendencia, genero, razaoSocial, valorHora, cod_agente) VALUES(204, 'Lorença Silveira', 'Africana', 'F', 'Predadora', 476, 102);
+INSERT INTO acompanhante(cod_acompanhante, nome, descendencia, genero, razaoSocial, valorHora, cod_agente) VALUES(205, 'Sasha Dimitri', 'Europeia', 'F', 'Mãe Russia', 510, 102);
+INSERT INTO acompanhante(cod_acompanhante, nome, descendencia, genero, razaoSocial, valorHora, cod_agente) VALUES(206, 'Anitta de Oliveira', 'Latina', 'F', 'Bandida', 277.80, 103);
+INSERT INTO acompanhante(cod_acompanhante, nome, descendencia, genero, razaoSocial, valorHora, cod_agente) VALUES(207, 'Jurema da Silva Santos', 'Latina', 'F', 'India Snu Snu', 380, 103);
+INSERT INTO acompanhante(cod_acompanhante, nome, descendencia, genero, razaoSocial, valorHora, cod_agente) VALUES(208, 'Jorge Dangelo', 'Latina', 'M', 'Bonecona', 250.99, 104);
+INSERT INTO acompanhante(cod_acompanhante, nome, descendencia, genero, razaoSocial, valorHora, cod_agente) VALUES(209, 'Ricardo Algusto', 'Europeia', 'M', 'Claudia Tripé', 430.55, 104);
+
+INSERT INTO categoriaAtuacao(cod_categoriaAtuacao, categoria) VALUES(50, 'Dendrofilia');
+INSERT INTO categoriaAtuacao(cod_categoriaAtuacao, categoria) VALUES(51, 'Lactofilia');
+INSERT INTO categoriaAtuacao(cod_categoriaAtuacao, categoria) VALUES(52, 'Kosupurefilia');
+INSERT INTO categoriaAtuacao(cod_categoriaAtuacao, categoria) VALUES(53, 'Quirofilia');
+INSERT INTO categoriaAtuacao(cod_categoriaAtuacao, categoria) VALUES(54, 'Podolatria');
+INSERT INTO categoriaAtuacao(cod_categoriaAtuacao, categoria) VALUES(55, 'Pirofilia');
+INSERT INTO categoriaAtuacao(cod_categoriaAtuacao, categoria) VALUES(56, 'Odaxelagnia');
+INSERT INTO categoriaAtuacao(cod_categoriaAtuacao, categoria) VALUES(57, 'Tricofilia');
+INSERT INTO categoriaAtuacao(cod_categoriaAtuacao, categoria) VALUES(58, 'Timofilia');
+INSERT INTO categoriaAtuacao(cod_categoriaAtuacao, categoria) VALUES(59, 'Flatofilia');
+
+INSERT INTO especializacao(cod_categoriaAtuacao, cod_acompanhante) VALUES(50, 200);
+INSERT INTO especializacao(cod_categoriaAtuacao, cod_acompanhante) VALUES(51, 200);
+INSERT INTO especializacao(cod_categoriaAtuacao, cod_acompanhante) VALUES(52, 200);
+INSERT INTO especializacao(cod_categoriaAtuacao, cod_acompanhante) VALUES(53, 201);
+INSERT INTO especializacao(cod_categoriaAtuacao, cod_acompanhante) VALUES(53, 202);
+INSERT INTO especializacao(cod_categoriaAtuacao, cod_acompanhante) VALUES(55, 202);
+INSERT INTO especializacao(cod_categoriaAtuacao, cod_acompanhante) VALUES(57, 203);
+INSERT INTO especializacao(cod_categoriaAtuacao, cod_acompanhante) VALUES(52, 203);
+INSERT INTO especializacao(cod_categoriaAtuacao, cod_acompanhante) VALUES(51, 203);
+INSERT INTO especializacao(cod_categoriaAtuacao, cod_acompanhante) VALUES(53, 204);
+INSERT INTO especializacao(cod_categoriaAtuacao, cod_acompanhante) VALUES(53, 205);
+INSERT INTO especializacao(cod_categoriaAtuacao, cod_acompanhante) VALUES(59, 205);
+INSERT INTO especializacao(cod_categoriaAtuacao, cod_acompanhante) VALUES(57, 206);
+INSERT INTO especializacao(cod_categoriaAtuacao, cod_acompanhante) VALUES(50, 206);
+INSERT INTO especializacao(cod_categoriaAtuacao, cod_acompanhante) VALUES(53, 207);
+INSERT INTO especializacao(cod_categoriaAtuacao, cod_acompanhante) VALUES(55, 207);
+INSERT INTO especializacao(cod_categoriaAtuacao, cod_acompanhante) VALUES(55, 207);
+INSERT INTO especializacao(cod_categoriaAtuacao, cod_acompanhante) VALUES(56, 208);
+INSERT INTO especializacao(cod_categoriaAtuacao, cod_acompanhante) VALUES(52, 208);
+INSERT INTO especializacao(cod_categoriaAtuacao, cod_acompanhante) VALUES(56, 209);
+
+INSERT INTO encontro(cod_encontro, duracao, formaPagamento, cod_cliente, cod_acompanhante) VALUES(200, 3, 'Cheque', 1, 209);
+INSERT INTO encontro(cod_encontro, duracao, formaPagamento, cod_cliente, cod_acompanhante) VALUES(201, 4, 'Dinheiro', 1, 205);
+INSERT INTO encontro(cod_encontro, duracao, formaPagamento, cod_cliente, cod_acompanhante) VALUES(202, 1, 'Dinheiro', 3, 205);
+INSERT INTO encontro(cod_encontro, duracao, formaPagamento, cod_cliente, cod_acompanhante) VALUES(203, 5, 'Dinheiro', 3, 203);
+INSERT INTO encontro(cod_encontro, duracao, formaPagamento, cod_cliente, cod_acompanhante) VALUES(204, 6, 'Dinheiro', 10, 206);
+INSERT INTO encontro(cod_encontro, duracao, formaPagamento, cod_cliente, cod_acompanhante) VALUES(205, 2, 'Dinheiro', 10, 207);
+INSERT INTO encontro(cod_encontro, duracao, formaPagamento, cod_cliente, cod_acompanhante) VALUES(206, 3, 'Cheque', 9, 201);
+INSERT INTO encontro(cod_encontro, duracao, formaPagamento, cod_cliente, cod_acompanhante) VALUES(207, 1, 'Cheque', 8, 200);
+INSERT INTO encontro(cod_encontro, duracao, formaPagamento, cod_cliente, cod_acompanhante) VALUES(208, 1, 'Cartão', 7, 202);
+INSERT INTO encontro(cod_encontro, duracao, formaPagamento, cod_cliente, cod_acompanhante) VALUES(209, 1, 'Cartão', 5, 202);
+INSERT INTO encontro(cod_encontro, duracao, formaPagamento, cod_cliente, cod_acompanhante) VALUES(210, 3, 'Cheque', 5, 204);
+INSERT INTO encontro(cod_encontro, duracao, formaPagamento, cod_cliente, cod_acompanhante) VALUES(211, 24, 'Cheque', 9, 204);
+INSERT INTO encontro(cod_encontro, duracao, formaPagamento, cod_cliente, cod_acompanhante) VALUES(212, 6, 'Cheque', 9, 203);
+INSERT INTO encontro(cod_encontro, duracao, formaPagamento, cod_cliente, cod_acompanhante) VALUES(213, 1, 'Dinheiro', 1, 205);
+INSERT INTO encontro(cod_encontro, duracao, formaPagamento, cod_cliente, cod_acompanhante) VALUES(214, 3, 'Dinheiro', 3, 206);
+INSERT INTO encontro(cod_encontro, duracao, formaPagamento, cod_cliente, cod_acompanhante) VALUES(215, 4, 'Cheque', 4, 201);
+INSERT INTO encontro(cod_encontro, duracao, formaPagamento, cod_cliente, cod_acompanhante) VALUES(216, 4, 'Cheque', 4, 202);
+INSERT INTO encontro(cod_encontro, duracao, formaPagamento, cod_cliente, cod_acompanhante) VALUES(217, 5, 'Cheque', 9, 204);
+INSERT INTO encontro(cod_encontro, duracao, formaPagamento, cod_cliente, cod_acompanhante) VALUES(218, 5, 'Dinheiro', 9, 205);
+INSERT INTO encontro(cod_encontro, duracao, formaPagamento, cod_cliente, cod_acompanhante) VALUES(219, 8, 'Cartão', 2, 208);
+INSERT INTO encontro(cod_encontro, duracao, formaPagamento, cod_cliente, cod_acompanhante) VALUES(220, 7, 'Cartão', 6, 209);
+INSERT INTO encontro(cod_encontro, duracao, formaPagamento, cod_cliente, cod_acompanhante) VALUES(221, 7, 'Cheque', 6, 208);
+INSERT INTO encontro(cod_encontro, duracao, formaPagamento, cod_cliente, cod_acompanhante) VALUES(222, 8, 'Dinheiro', 2, 209);
+INSERT INTO encontro(cod_encontro, duracao, formaPagamento, cod_cliente, cod_acompanhante) VALUES(223, 8, 'Dinheiro', 1, 203);
+INSERT INTO encontro(cod_encontro, duracao, formaPagamento, cod_cliente, cod_acompanhante) VALUES(224, 2, 'Dinheiro', 10, 204);
+INSERT INTO encontro(cod_encontro, duracao, formaPagamento, cod_cliente, cod_acompanhante) VALUES(225, 2, 'Cheque', 9, 204);
+INSERT INTO encontro(cod_encontro, duracao, formaPagamento, cod_cliente, cod_acompanhante) VALUES(226, 10, 'Cheque', 7, 202);
+INSERT INTO encontro(cod_encontro, duracao, formaPagamento, cod_cliente, cod_acompanhante) VALUES(227, 9, 'Dinheiro', 7, 202);
+INSERT INTO encontro(cod_encontro, duracao, formaPagamento, cod_cliente, cod_acompanhante) VALUES(228, 9, 'Cartão', 3, 201);
+INSERT INTO encontro(cod_encontro, duracao, formaPagamento, cod_cliente, cod_acompanhante) VALUES(229, 10, 'Cartão', 5, 200);
+
+***************************************************************************************************
