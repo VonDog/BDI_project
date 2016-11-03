@@ -120,7 +120,7 @@ INSERT INTO especializacao(cod_categoriaAtuacao, cod_acompanhante) VALUES(57, 20
 INSERT INTO especializacao(cod_categoriaAtuacao, cod_acompanhante) VALUES(50, 206);
 INSERT INTO especializacao(cod_categoriaAtuacao, cod_acompanhante) VALUES(53, 207);
 INSERT INTO especializacao(cod_categoriaAtuacao, cod_acompanhante) VALUES(55, 207);
-INSERT INTO especializacao(cod_categoriaAtuacao, cod_acompanhante) VALUES(55, 207);
+INSERT INTO especializacao(cod_categoriaAtuacao, cod_acompanhante) VALUES(51, 207);
 INSERT INTO especializacao(cod_categoriaAtuacao, cod_acompanhante) VALUES(56, 208);
 INSERT INTO especializacao(cod_categoriaAtuacao, cod_acompanhante) VALUES(52, 208);
 INSERT INTO especializacao(cod_categoriaAtuacao, cod_acompanhante) VALUES(56, 209);
