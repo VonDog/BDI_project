@@ -54,12 +54,12 @@ CREATE TABLE encontro (
 	FOREIGN KEY(cod_acompanhante) REFERENCES acompanhante(cod_acompanhante)
 );
 
-DROP TABLE encontro;
-DROP TABLE especializacao;
-DROP TABLE acompanhante;
-DROP TABLE categoriaAtuacao;
-DROP TABLE agente;
-DROP TABLE cliente;
+DROP TABLE encontro CASCADE CONSTRAINT;
+DROP TABLE especializacao CASCADE CONSTRAINT;
+DROP TABLE acompanhante CASCADE CONSTRAINT;
+DROP TABLE categoriaAtuacao CASCADE CONSTRAINT;
+DROP TABLE agente CASCADE CONSTRAINT;
+DROP TABLE cliente CASCADE CONSTRAINT;
 
 ***************************************************************************************************
 
@@ -157,3 +157,33 @@ INSERT INTO encontro(cod_encontro, duracao, formaPagamento, cod_cliente, cod_aco
 INSERT INTO encontro(cod_encontro, duracao, formaPagamento, cod_cliente, cod_acompanhante) VALUES(229, 10, 'Cartão', 5, 200);
 
 ***************************************************************************************************
+
+***************************BUSCAS(LEFT JOIN, RIGHT JOIN, SUB-SELECT)*******************************
+
+//Apresente o nome do(a) cliente que recebeu a prestação de serviço de uma determinada acompanhante.
+
+//Apresente o numero de encontros realizadas com uma determinada especialização, ordenado em ordem descendente;
+
+
+
+****************************************STORE PROCEDURE********************************************
+
+//Forneça um aumento para o valor cobrado por hora para todas as acompanhantes de um determinado agente. 
+
+CREATE OR REPLACE PROCEDURE aumentoValorHora (
+  novoValorHora IN acompanhante.valorHora%type, 
+  nome_agente IN agente.nome%type
+ )
+IS
+BEGIN
+  UPDATE acompanhante
+  SET valorHora = valorHora * (1 + novoValorHora/100)
+  WHERE cod_agente LIKE (
+    SELECT cod_agente 
+    FROM agente 
+    WHERE (nome LIKE nome_agente)
+  );
+END aumentoValorHora;
+
+***************************************************************************************************
+
