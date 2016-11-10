@@ -162,9 +162,22 @@ INSERT INTO encontro(cod_encontro, duracao, formaPagamento, cod_cliente, cod_aco
 
 //Apresente o nome do(a) cliente que recebeu a prestação de serviço de uma determinada acompanhante.
 
+SELECT nome FROM encontro E RIGHT JOIN cliente C ON(E.cod_cliente=C.cod_cliente)
+WHERE cod_acompanhante = 
+(SELECT cod_acompanhante FROM acompanhante WHERE nome like 'Sasha Dimitri');
+
 //Apresente o numero de encontros realizadas com uma determinada especialização, ordenado em ordem descendente;
 
-
+SELECT categoria,COUNT(cli.nome) AS Popularidade
+FROM categoriaAtuacao C LEFT JOIN especializacao E 
+ON (C.cod_categoriaAtuacao = E.cod_categoriaAtuacao)
+RIGHT JOIN acompanhante ac 
+ON(e.cod_acompanhante=ac.cod_acompanhante)
+LEFT JOIN encontro ENC 
+ON (ac.cod_acompanhante=enc.cod_acompanhante)
+RIGHT JOIN cliente cli ON (cli.cod_cliente=enc.cod_cliente)
+GROUP BY categoria
+ORDER BY Popularidade DESC;
 
 ****************************************STORE PROCEDURE********************************************
 
