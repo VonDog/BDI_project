@@ -179,6 +179,8 @@ RIGHT JOIN cliente cli ON (cli.cod_cliente=enc.cod_cliente)
 GROUP BY categoria
 ORDER BY Popularidade DESC;
 
+***************************************************************************************************
+
 ****************************************STORE PROCEDURE********************************************
 
 //Forneça um aumento para o valor cobrado por hora para todas as acompanhantes de um determinado agente. 
